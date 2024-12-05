@@ -5,9 +5,9 @@
 - Walidację transakcji w celu zapewnienia wystarczających środków na koncie użytkownika.
 
 # Technologie:
-Język: Java 17
-Framework: Spring Boot
-Klient HTTP: Spring WebClient
+- Język: Java 17
+- Framework: Spring Boot
+- Klient HTTP: Spring WebClient
 
 # The application allows managing user accounts with currency support.The main functionalities include:
 -Creating user accounts with a specified initial balance in PLN.
@@ -16,9 +16,9 @@ Klient HTTP: Spring WebClient
 -Validating transactions to ensure sufficient funds are available in the user's account.
 
 # Technologies:
-Language: Java 17
-Framework: Spring Boot
-HTTP Client: Spring WebClient
+- Language: Java 17
+- Framework: Spring Boot
+- HTTP Client: Spring WebClient
 
 
 
