@@ -14,6 +14,8 @@ public class CurrencyCodesReader {
 
     private static final String FILE_NAME = "codes.txt";
 
+    private CurrencyCodesReader(){}
+
     @PostConstruct
     public static Set<String> readCodes() {
         Set<String> codes = new HashSet<>();
