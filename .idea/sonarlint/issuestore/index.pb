@@ -48,3 +48,5 @@ n
 >src/main/java/org/example/service/strategy/XToPlnStrategy.java,0\f\0f8d46741ce1cc1264b8eee442cd105eef5fa319
 9
 	codes.txt,5\e\5e15f70b3d18e781787379ada7d5db42895ebdd2
+g
+7src/main/java/org/example/util/CurrencyCodesReader.java,2\3\2378b747aeab2c16a0a33ff2ead9f1dfee5650e8

@@ -20,15 +20,8 @@ public class MoneyConversionService {
         validator.validateBalance(balance, request);
         ConversionStrategy strategy = strategyFactory.getStrategy(request.getBaseCurrencyCode());
         Currency converted = strategy.convert(request);
-        System.out.println("XXXXXXXXXXXXXXX1" + balance);
-        System.out.println("XXXXXXXXXXXXXXX2" + converted);
         balance.subtractCurrency(request.baseCurrency());
-        System.out.println("XXXXXXXXXXXXXXX3" + balance);
         balance.addCurrency(converted);
-        System.out.println("XXXXXXXXXXXXXXX4" + balance);
-        System.out.println();
-        System.out.println();
-        System.out.println();
         return balance;
     }
 }

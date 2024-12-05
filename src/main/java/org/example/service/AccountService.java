@@ -6,17 +6,12 @@ import org.example.model.Account;
 import org.example.model.AccountBalance;
 import org.example.model.dto.AccountCreationRequest;
 import org.example.model.dto.MoneyConversionRequest;
-import org.example.valueObject.Currency;
-import org.example.valueObject.Money;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-
-import static org.example.util.CurrencyCodes.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +44,7 @@ public class AccountService {
         return account;
     }
 
-    public List<Account> getAllAccounts() {
+    public List<Account> findAllAccounts() {
         return (List<Account>) accounts.values();
     }
 

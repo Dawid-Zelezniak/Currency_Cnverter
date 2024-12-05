@@ -30,7 +30,7 @@ public class AccountController {
 
     @GetMapping("/")
     public List<Account> getAccounts() {
-        return service.getAllAccounts();
+        return service.findAllAccounts();
     }
 
     @PostMapping("/money/convert")

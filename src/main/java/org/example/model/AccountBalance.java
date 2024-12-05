@@ -15,7 +15,9 @@ import static org.example.util.CurrencyCodes.*;
 @ToString
 public class AccountBalance {
 
-    //dodać mapę w której podstawowowymi walutami będzie pln i usd a jak kolejnej waluty nie będzie w tej mapie to zostanie dodana
+    //dodać mapę w której podstawowowymi walutami będzie pln i usd
+    // jeżeli danej waluty nie będzie w tej mapie to zostanie dodana po sprawdzeniu czy istnieje waluta o takim kodzie
+    //kazde konto bedzie miało mapę walut jakich użytkownik używał do konwersji
 
     @Valid
     private Currency plnBalance;
