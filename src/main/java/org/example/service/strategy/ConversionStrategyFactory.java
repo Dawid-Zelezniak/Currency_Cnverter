@@ -17,14 +17,14 @@ public class ConversionStrategyFactory {
 
     private static final Set<String> codes = CurrencyCodesReader.readCodes();
 
-    private final NbpTableCRates courseService;
-    
+    private final NbpTableCRates tableCRates;
+
     public ConversionStrategy getStrategy(String base) {
         ConversionStrategy strategy;
         if (PLN.equalsIgnoreCase(base)) {
-            strategy = new PlnToXStrategy(courseService);
+            strategy = new PlnToXStrategy(tableCRates);
         } else if (codes.contains(base.toUpperCase())) {
-            strategy = new XToPlnStrategy(courseService);
+            strategy = new XToPlnStrategy(tableCRates);
         } else throw new IllegalArgumentException("Unsupported currency " + base);
         return strategy;
     }
