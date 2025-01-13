@@ -7,6 +7,7 @@ import org.example.model.AccountBalance;
 import org.example.model.dto.AccountCreationRequest;
 import org.example.model.dto.MoneyConversionRequest;
 import org.example.service.AccountService;
+import org.example.valueObject.CurrencyCode;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +19,14 @@ public class AccountController {
 
     private final AccountService service;
 
-    @PostMapping("/create")
+    @PostMapping
     public Account createAccount(@RequestBody @Valid AccountCreationRequest request) {
         return service.createUserAccount(request);
+    }
+
+    @GetMapping
+    public List<Account> getAccounts() {
+        return service.findAllAccounts();
     }
 
     @GetMapping("/{id}")
@@ -28,9 +34,9 @@ public class AccountController {
         return service.findAccountById(id);
     }
 
-    @GetMapping("/")
-    public List<Account> getAccounts() {
-        return service.findAllAccounts();
+    @PutMapping("/{accountId}/")
+    public void addCurrency(@PathVariable Integer accountId,@RequestParam @Valid CurrencyCode code){
+        service.addNewCurrency(accountId,code);
     }
 
     @PostMapping("/money/convert")
