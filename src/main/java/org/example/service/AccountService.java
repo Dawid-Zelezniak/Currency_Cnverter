@@ -6,12 +6,10 @@ import org.example.model.Account;
 import org.example.model.AccountBalance;
 import org.example.model.dto.AccountCreationRequest;
 import org.example.model.dto.MoneyConversionRequest;
+import org.example.valueObject.CurrencyCode;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +20,8 @@ public class AccountService {
 
     private final MoneyConversionService conversionService;
 
-    Map<Integer, Account> accounts = new LinkedHashMap<>();
-    int actualId = START_VALUE;
+   private final Map<Integer, Account> accounts = new HashMap<>();
+   private int actualId = START_VALUE;
 
     public Account createUserAccount(AccountCreationRequest request) {
         Account account = Account.builder()
@@ -55,5 +53,12 @@ public class AccountService {
         account.setBalance(accountBalance);
         accounts.replace(request.accountId(), account);
         return accountBalance;
+    }
+
+    public void addNewCurrency(Integer accountId, CurrencyCode code) {
+        Account account = accounts.get(accountId);
+        AccountBalance balance = account.getBalance();
+        balance.addCurrencyToAccount(code);
+        accounts.replace(accountId,account);
     }
 }
