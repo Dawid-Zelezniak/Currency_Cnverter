@@ -4,7 +4,7 @@ import org.example.model.dto.CurrencyCourseDto;
 import reactor.core.publisher.Mono;
 
 public class CurrencyCourseMapper {
-    
+
     private CurrencyCourseMapper() {
     }
 

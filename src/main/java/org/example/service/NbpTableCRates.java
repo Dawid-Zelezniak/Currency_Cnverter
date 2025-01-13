@@ -11,13 +11,13 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class CurrencyCourseService implements CurrencyCourseClient {
+public class NbpTableCRates implements CurrencyRatesDownloader {
 
-    private static final String ratesTable = "https://api.nbp.pl/api/exchangerates/rates/c/";
+    private static final String TABLE_C = "https://api.nbp.pl/api/exchangerates/rates/c/";
 
     public CurrencyCourseDto getCurrencyCourse(CurrencyCode code) {
         WebClient webClient = WebClient.create();
-        String fullRequest = ratesTable + code.getCode() + "/today/";
+        String fullRequest = TABLE_C + code.getCode() + "/today/";
 
         Mono<CurrencyCourseDto> mono = webClient.get()
                 .uri(fullRequest)

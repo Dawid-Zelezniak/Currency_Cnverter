@@ -29,7 +29,7 @@ public class CurrencyCodesReader {
             }
             log.info("Codes loaded : {}", codesCounter);
         } catch (IOException e) {
-            throw new RuntimeException("File " + FILE_NAME + " not found.");
+            throw new IllegalArgumentException("File " + FILE_NAME + " not found.");
         }
         return codes;
     }

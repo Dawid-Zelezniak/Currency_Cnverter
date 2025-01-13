@@ -21,7 +21,7 @@ public class MoneyConversionService {
         ConversionStrategy strategy = strategyFactory.getStrategy(request.getBaseCurrencyCode());
         Currency converted = strategy.convert(request);
         balance.subtractCurrency(request.baseCurrency());
-        balance.addCurrency(converted);
+        balance.sumCurrencyBalance(converted);
         return balance;
     }
 }

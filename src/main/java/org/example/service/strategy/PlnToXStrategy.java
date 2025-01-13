@@ -4,24 +4,23 @@ import lombok.RequiredArgsConstructor;
 import org.example.model.dto.CurrencyCourseDto;
 import org.example.model.dto.MoneyConversionRequest;
 import org.example.model.dto.RateDto;
-import org.example.service.CurrencyCourseService;
+import org.example.service.CurrencyRatesDownloader;
 import org.example.valueObject.Currency;
 import org.example.valueObject.CurrencyCode;
 import org.example.valueObject.Money;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
 @RequiredArgsConstructor
 public class PlnToXStrategy implements ConversionStrategy {
 
-    private final CurrencyCourseService courseService;
+    private final CurrencyRatesDownloader ratesDownloader;
 
     @Override
     public Currency convert(MoneyConversionRequest request) {
         CurrencyCode targetCurrencyCode = request.targetCurrencyCode();
-        CurrencyCourseDto currencyCourse = courseService.getCurrencyCourse(targetCurrencyCode);
+        CurrencyCourseDto currencyCourse = ratesDownloader.getCurrencyCourse(targetCurrencyCode);
+
         Currency currency = request.baseCurrency();
         Money amount = currency.amount();
 

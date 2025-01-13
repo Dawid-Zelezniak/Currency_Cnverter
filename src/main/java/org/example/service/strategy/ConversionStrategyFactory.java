@@ -2,7 +2,7 @@ package org.example.service.strategy;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.service.CurrencyCourseService;
+import org.example.service.NbpTableCRates;
 import org.example.util.CurrencyCodesReader;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +17,8 @@ public class ConversionStrategyFactory {
 
     private static final Set<String> codes = CurrencyCodesReader.readCodes();
 
-    private final CurrencyCourseService courseService;
-
-
+    private final NbpTableCRates courseService;
+    
     public ConversionStrategy getStrategy(String base) {
         ConversionStrategy strategy;
         if (PLN.equalsIgnoreCase(base)) {
