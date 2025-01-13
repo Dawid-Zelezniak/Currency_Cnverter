@@ -1,74 +1,69 @@
 package org.example.model;
 
-import jakarta.validation.Valid;
 import lombok.*;
 import org.example.valueObject.Currency;
 import org.example.valueObject.CurrencyCode;
 import org.example.valueObject.Money;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.example.util.CurrencyCodes.*;
 
 @Getter
 @NoArgsConstructor
 @ToString
+@Builder
+@AllArgsConstructor
 public class AccountBalance {
 
-    //dodać mapę w której podstawowowymi walutami będzie pln i usd
-    // jeżeli danej waluty nie będzie w tej mapie to zostanie dodana po sprawdzeniu czy istnieje waluta o takim kodzie
-    //kazde konto bedzie miało mapę walut jakich użytkownik używał do konwersji
+    private Map<CurrencyCode, Currency> balances = new HashMap<>();
 
-    @Valid
-    private Currency plnBalance;
-    @Valid
-    private Currency usdBalance = new Currency(new Money(BigDecimal.ZERO), USD_CODE);
-    @Valid
-    private Currency chfBalance = new Currency(new Money(BigDecimal.ZERO), CHF_CODE);
+    public AccountBalance(Money money) {
+        balances.put(PLN_CODE, new Currency(money, PLN_CODE));
+        balances.put(USD_CODE, new Currency(new Money(BigDecimal.ZERO), USD_CODE));
+    }
 
-    public AccountBalance(Money money){
-        this.plnBalance = new Currency(money,PLN_CODE);
+    public void addCurrencyToAccount(CurrencyCode code) {
+        addCurrencyIfAbsent(code);
     }
 
     public Money getBalanceByCurrencyCode(CurrencyCode code) {
-        Money balance = null;
-        String currencyCode = code.getCode();
-        switch (currencyCode) {
-            case PLN -> balance = plnBalance.amount();
-            case USD -> balance = usdBalance.amount();
-            case CHF -> balance = chfBalance.amount();
-            default -> throwException(currencyCode);
-        }
-        return balance;
+        addCurrencyIfAbsent(code);
+        Currency currency = balances.get(code);
+        return currency.amount();
     }
 
-    public void subtractCurrency(Currency c) {
-        CurrencyCode code = c.code();
-        Money amount = c.amount();
-        String currencyCode = code.getCode();
-
-        switch (currencyCode) {
-            case PLN -> plnBalance = new Currency(plnBalance.amount().subtract(amount), PLN_CODE);
-            case USD -> usdBalance = new Currency(usdBalance.amount().subtract(amount), USD_CODE);
-            case CHF -> chfBalance = new Currency(chfBalance.amount().subtract(amount), CHF_CODE);
-            default -> throwException(currencyCode);
-        }
+    public void subtractCurrency(Currency currency) {
+        CurrencyCode code = currency.code();
+        Currency actual = balances.get(code);
+        Money actualAmount = actual.amount();
+        Money toSubtract = currency.amount();
+        validateNewBalance(actualAmount, toSubtract);
+        Money subtracted = actualAmount.subtract(toSubtract);
+        balances.put(code, new Currency(subtracted, code));
     }
 
-    public void addCurrency(Currency c) {
-        CurrencyCode code = c.code();
-        Money amount = c.amount();
-        String currencyCode = code.getCode();
-
-        switch (currencyCode) {
-            case PLN -> plnBalance = new Currency(plnBalance.amount().add(amount), PLN_CODE);
-            case USD -> usdBalance = new Currency(usdBalance.amount().add(amount), USD_CODE);
-            case CHF -> chfBalance = new Currency(chfBalance.amount().add(amount), CHF_CODE);
-            default -> throwException(currencyCode);
-        }
+    public void sumCurrencyBalance(Currency currency) {
+        CurrencyCode code = currency.code();
+        addCurrencyIfAbsent(code);
+        Currency actual = balances.get(code);
+        Money actualAmount = actual.amount();
+        Money updatedBalance = actualAmount.add(currency.amount());
+        balances.put(code, new Currency(updatedBalance, code));
     }
 
-    private void throwException(String code) {
-        throw new IllegalArgumentException("Unsupported currency " + code);
+    private void addCurrencyIfAbsent(CurrencyCode code) {
+        balances.computeIfAbsent(code, c -> {
+            Money initialBalance = new Money(BigDecimal.ZERO);
+            return new Currency(initialBalance, code);
+        });
+    }
+
+    private void validateNewBalance(Money actual, Money toSubtract) {
+        if (!actual.subtract(toSubtract).isGreaterThanOrEqualZero()) {
+            throw new IllegalArgumentException("Not enough founds to process this operation.");
+        }
     }
 }
