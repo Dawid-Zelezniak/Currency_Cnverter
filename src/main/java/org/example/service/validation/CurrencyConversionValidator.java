@@ -7,25 +7,22 @@ import org.example.valueObject.Currency;
 import org.example.valueObject.Money;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
 @Component
 @Slf4j
 public class CurrencyConversionValidator {
 
     public void validateBalance(AccountBalance balance, MoneyConversionRequest request) {
-        Currency currency = request.baseCurrency();
-        Money amountInRequest = currency.amount();
-        log.info("Amount in request:{}", amountInRequest);
+        Currency requestBaseCurrency = request.baseCurrency();
+        Money moneyToConvert = requestBaseCurrency.amount();
+        log.info("Amount in request:{}", moneyToConvert);
 
-        Money balanceByCurrencyCode = balance.getBalanceByCurrencyCode(currency.code());
-        BigDecimal accountCurrencyBalance = balanceByCurrencyCode.getValue();
-        log.info("Amount on account:{}", accountCurrencyBalance);
+        Money actualCurrencyAmountOnAccount = balance.getBalanceByCurrencyCode(requestBaseCurrency.code());
+        log.info("Amount on account:{}", actualCurrencyAmountOnAccount.getValue());
 
-        Money subtracted = balanceByCurrencyCode.subtract(amountInRequest);
+        Money subtracted = actualCurrencyAmountOnAccount.subtract(moneyToConvert);
         if (!subtracted.isGreaterThanOrEqualZero()) {
-            throw new IllegalArgumentException(
-                    "You don't have enough founds to process this operation.Missing founds:"
+            log.error("Not enough funds for conversion. Missing: {}", Math.abs(subtracted.getDoubleValue()));
+            throw new IllegalArgumentException("You don't have enough founds to process this operation.Missing founds:"
                             + Math.abs(subtracted.getDoubleValue()));
         }
     }
