@@ -11,9 +11,9 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class CurrencyCourseService {
+public class CurrencyCourseService implements CurrencyCourseClient {
 
-    private static String ratesTable = "https://api.nbp.pl/api/exchangerates/rates/c/";
+    private static final String ratesTable = "https://api.nbp.pl/api/exchangerates/rates/c/";
 
     public CurrencyCourseDto getCurrencyCourse(CurrencyCode code) {
         WebClient webClient = WebClient.create();
