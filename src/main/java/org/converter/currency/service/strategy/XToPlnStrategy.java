@@ -1,20 +1,18 @@
-package org.example.service.strategy;
+package org.converter.currency.service.strategy;
 
 import lombok.RequiredArgsConstructor;
-import org.example.model.dto.MoneyConversionRequest;
-import org.example.model.dto.RateDto;
-import org.example.service.CourseDownloader;
-import org.example.service.RatesDownloader;
-import org.example.valueObject.Currency;
-import org.example.valueObject.CurrencyCode;
-import org.example.valueObject.Money;
+import org.converter.currency.dto.MoneyConversionRequest;
+import org.converter.currency.dto.RateDto;
+import org.converter.currency.service.RatesDownloader;
+import org.converter.currency.valueObject.Currency;
+import org.converter.currency.valueObject.CurrencyCode;
+import org.converter.util.Money;
 
 @RequiredArgsConstructor
 public class XToPlnStrategy implements ConversionStrategy {
 
     private final RatesDownloader ratesDownloader;
 
-    @Override
     public Currency convert(MoneyConversionRequest request) {
         Currency baseCurrency = request.baseCurrency();
         String table = request.table();

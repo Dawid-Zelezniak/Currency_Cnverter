@@ -1,14 +1,14 @@
-package org.example.service.strategy;
+package org.converter.currency.service.strategy;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.service.RatesDownloader;
-import org.example.util.CurrencyCodesLoader;
+import org.converter.currency.service.RatesDownloader;
+import org.converter.util.CurrencyCodesLoader;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
-import static org.example.util.CurrencyCodes.PLN;
+import static org.converter.util.CurrencyCodes.PLN;
 
 @Component
 @RequiredArgsConstructor

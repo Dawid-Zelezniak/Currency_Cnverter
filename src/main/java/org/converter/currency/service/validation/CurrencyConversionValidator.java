@@ -1,10 +1,10 @@
-package org.example.service.validation;
+package org.converter.currency.service.validation;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.model.AccountBalance;
-import org.example.model.dto.MoneyConversionRequest;
-import org.example.valueObject.Currency;
-import org.example.valueObject.Money;
+import org.converter.account.model.AccountBalance;
+import org.converter.currency.dto.MoneyConversionRequest;
+import org.converter.currency.valueObject.Currency;
+import org.converter.util.Money;
 import org.springframework.stereotype.Component;
 
 @Component

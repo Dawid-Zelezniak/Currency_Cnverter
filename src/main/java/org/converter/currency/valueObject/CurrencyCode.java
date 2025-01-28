@@ -1,4 +1,4 @@
-package org.converter.valueObject;
+package org.converter.currency.valueObject;
 
 public record CurrencyCode(String code) {
 

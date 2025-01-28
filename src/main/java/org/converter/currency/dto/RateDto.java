@@ -1,4 +1,4 @@
-package org.example.model.dto;
+package org.converter.currency.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

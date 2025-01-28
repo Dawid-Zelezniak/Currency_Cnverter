@@ -1,8 +1,8 @@
-package org.example.model.dto;
+package org.converter.account.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.example.valueObject.Money;
+import org.converter.util.Money;
 
 public record AccountCreationRequest(
         @NotBlank(message = "First name can not be blank")

@@ -1,15 +1,15 @@
-package org.example.model;
+package org.converter.account.model;
 
 import lombok.*;
-import org.example.valueObject.Currency;
-import org.example.valueObject.CurrencyCode;
-import org.example.valueObject.Money;
+import org.converter.currency.valueObject.Currency;
+import org.converter.currency.valueObject.CurrencyCode;
+import org.converter.util.Money;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.example.util.CurrencyCodes.*;
+import static org.converter.util.CurrencyCodes.*;
 
 @Getter
 @NoArgsConstructor

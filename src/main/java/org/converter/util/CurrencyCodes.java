@@ -1,6 +1,6 @@
-package org.example.util;
+package org.converter.util;
 
-import org.example.valueObject.CurrencyCode;
+import org.converter.currency.valueObject.CurrencyCode;
 
 public class CurrencyCodes {
 

@@ -1,6 +1,7 @@
-package org.converter.valueObject;
+package org.converter.currency.valueObject;
 
 import jakarta.validation.Valid;
+import org.converter.util.Money;
 
 public record Currency(
         @Valid

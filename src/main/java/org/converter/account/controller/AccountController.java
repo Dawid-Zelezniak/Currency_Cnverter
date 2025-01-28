@@ -1,13 +1,13 @@
-package org.example.controller;
+package org.converter.account.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.model.Account;
-import org.example.model.AccountBalance;
-import org.example.model.dto.AccountCreationRequest;
-import org.example.model.dto.MoneyConversionRequest;
-import org.example.service.AccountService;
-import org.example.valueObject.CurrencyCode;
+import org.converter.account.model.Account;
+import org.converter.account.model.AccountBalance;
+import org.converter.account.dto.AccountCreationRequest;
+import org.converter.currency.dto.MoneyConversionRequest;
+import org.converter.account.service.AccountService;
+import org.converter.currency.valueObject.CurrencyCode;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class AccountController {
         return service.findAccountById(id);
     }
 
-    @PutMapping("/{accountId}/")
+    @PutMapping("/{accountId}")
     public void addCurrency(@PathVariable Integer accountId,@RequestParam @Valid CurrencyCode code){
         service.addNewCurrency(accountId,code);
     }

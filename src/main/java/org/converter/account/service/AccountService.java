@@ -1,12 +1,13 @@
-package org.example.service;
+package org.converter.account.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.model.Account;
-import org.example.model.AccountBalance;
-import org.example.model.dto.AccountCreationRequest;
-import org.example.model.dto.MoneyConversionRequest;
-import org.example.valueObject.CurrencyCode;
+import org.converter.account.model.Account;
+import org.converter.account.model.AccountBalance;
+import org.converter.account.dto.AccountCreationRequest;
+import org.converter.currency.dto.MoneyConversionRequest;
+import org.converter.currency.service.MoneyConversionService;
+import org.converter.currency.valueObject.CurrencyCode;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

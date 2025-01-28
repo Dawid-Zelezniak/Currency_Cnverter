@@ -1,9 +1,9 @@
-package org.example.service;
+package org.converter.currency.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.example.cache.CurrencyRatesCache;
-import org.example.model.dto.CurrencyTableDto;
+import org.converter.cache.CurrencyRatesCache;
+import org.converter.currency.dto.CurrencyTableDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -14,7 +14,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class NbpTableCRates {
 
-    private static final String TABLE_C_URL = "https://api.nbp.pl/api/exchangerates/rates/c/";
+    private static final String TABLE_C_URL = "https://api.nbp.pl/api/exchangerates/tables/c/today/";
 
     private final CurrencyRatesCache ratesCache;
 

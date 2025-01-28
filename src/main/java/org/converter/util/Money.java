@@ -1,4 +1,4 @@
-package org.converter.valueObject;
+package org.converter.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
@@ -18,7 +18,7 @@ public class Money {
     private static final int SCALE = 2;
 
 
-    @Min(value = 0, message = "Money can not be lower than 0")
+    @Min(value = 0, message = "Money can not be lower than 0.")
     private BigDecimal value = INITIAL_VALUE;
 
     public Money(BigDecimal value) {
