@@ -20,7 +20,7 @@ public class CurrencyConversionValidator {
         log.info("Amount on account:{}", actualCurrencyAmountOnAccount.getValue());
 
         Money subtracted = actualCurrencyAmountOnAccount.subtract(moneyToConvert);
-        if (!subtracted.isGreaterThanOrEqualZero()) {
+        if (subtracted.isLowerThanZero()) {
             log.error("Not enough funds for conversion. Missing: {}", Math.abs(subtracted.getDoubleValue()));
             throw new IllegalArgumentException("You don't have enough founds to process this operation.Missing founds:"
                             + Math.abs(subtracted.getDoubleValue()));

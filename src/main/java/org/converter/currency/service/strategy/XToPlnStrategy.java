@@ -1,32 +1,28 @@
 package org.example.service.strategy;
 
 import lombok.RequiredArgsConstructor;
-import org.example.model.dto.CurrencyCourseDto;
 import org.example.model.dto.MoneyConversionRequest;
 import org.example.model.dto.RateDto;
-import org.example.service.CurrencyRatesDownloader;
+import org.example.service.CourseDownloader;
+import org.example.service.RatesDownloader;
 import org.example.valueObject.Currency;
 import org.example.valueObject.CurrencyCode;
 import org.example.valueObject.Money;
 
-import java.math.BigDecimal;
-
 @RequiredArgsConstructor
 public class XToPlnStrategy implements ConversionStrategy {
 
-    private final CurrencyRatesDownloader ratesDownloader;
+    private final RatesDownloader ratesDownloader;
 
     @Override
     public Currency convert(MoneyConversionRequest request) {
         Currency baseCurrency = request.baseCurrency();
+        String table = request.table();
         CurrencyCode baseCurrencyCode = baseCurrency.code();
-        CurrencyCourseDto currencyCourse = ratesDownloader.getCurrencyCourse(baseCurrencyCode);
-
-        RateDto rate = currencyCourse.getRate();
-        BigDecimal bid = rate.bid();
+        RateDto currencyCourse = ratesDownloader.getCurrencyCourse(table, baseCurrencyCode);
 
         Money amount = baseCurrency.amount();
-        Money multiplied = amount.multiply(new Money(bid));
+        Money multiplied = amount.multiply(new Money(currencyCourse.bid()));
         return new Currency(multiplied, request.targetCurrencyCode());
     }
 }

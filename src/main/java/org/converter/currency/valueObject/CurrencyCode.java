@@ -1,20 +1,11 @@
-package org.example.valueObject;
+package org.converter.valueObject;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
-@Getter
-@EqualsAndHashCode
-@ToString
-public class CurrencyCode {
+public record CurrencyCode(String code) {
 
     /**
      * PLN,USD,EUR etc...
      */
     private static final int ISO_4217_STANDARD = 3;
-
-    private String code;
 
     public CurrencyCode(String code) {
         validLength(code);

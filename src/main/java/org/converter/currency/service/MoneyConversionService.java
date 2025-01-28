@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.model.AccountBalance;
 import org.example.model.dto.MoneyConversionRequest;
 import org.example.service.strategy.ConversionStrategy;
-import org.example.service.strategy.ConversionStrategyFactory;
+import org.example.service.strategy.ConversionStrategyProvider;
 import org.example.service.validation.CurrencyConversionValidator;
 import org.example.valueObject.Currency;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class MoneyConversionService {
 
     private final CurrencyConversionValidator validator;
-    private final ConversionStrategyFactory strategyFactory;
+    private final ConversionStrategyProvider strategyFactory;
 
     public AccountBalance convertMoney(AccountBalance balance, MoneyConversionRequest request) {
         validator.validateBalance(balance, request);

@@ -10,11 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
-public class CurrencyCodesReader {
+public class CurrencyCodesLoader {
 
     private static final String FILE_NAME = "codes.txt";
 
-    private CurrencyCodesReader(){}
+    private CurrencyCodesLoader(){}
 
     @PostConstruct
     public static Set<String> readCodes() {

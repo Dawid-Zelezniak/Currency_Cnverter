@@ -62,7 +62,7 @@ public class AccountBalance {
     }
 
     private void validateNewBalance(Money actual, Money toSubtract) {
-        if (!actual.subtract(toSubtract).isGreaterThanOrEqualZero()) {
+        if (actual.subtract(toSubtract).isLowerThanZero()) {
             throw new IllegalArgumentException("Not enough founds to process this operation.");
         }
     }

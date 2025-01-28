@@ -1,4 +1,4 @@
-package org.example.valueObject;
+package org.converter.valueObject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
@@ -51,9 +51,9 @@ public class Money {
     }
 
     @JsonIgnore
-    public boolean isGreaterThanOrEqualZero() {
+    public boolean isLowerThanZero() {
         int compareResult = this.value.compareTo(BigDecimal.ZERO);
-        return compareResult >= 0;
+        return compareResult < 0;
     }
 
     private BigDecimal round(BigDecimal value) {

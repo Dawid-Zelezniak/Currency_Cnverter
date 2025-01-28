@@ -1,4 +1,4 @@
-package org.example.valueObject;
+package org.converter.valueObject;
 
 import jakarta.validation.Valid;
 
