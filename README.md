@@ -48,3 +48,23 @@ Cached exchange rates improve application performance by reducing the number of 
 -  HTTP Client: Spring WebClient
 -  Testing: JUnit, Mockito
 -  Cache: ConcurrentHashMap
+
+  - add account
+  ![image](https://github.com/user-attachments/assets/389c2aa4-00de-42f8-9338-696bcc0ca1fb)
+  - convert pln to usd
+  ![image](https://github.com/user-attachments/assets/23dc0829-d60e-42f3-b9a2-d38dc3a48f29)
+  - convert pln to chf
+  ![image](https://github.com/user-attachments/assets/bd960a28-9e62-47d5-9f25-8d5255b91220)
+  - convert usd to pln
+  ![image](https://github.com/user-attachments/assets/ec6d21ff-f347-46e4-8b5c-762ec0cd7f3b)
+  - convert chf to pln
+  ![image](https://github.com/user-attachments/assets/5ca4e88c-f8a6-4e90-a926-9aefcbd24dbd)
+  - national holidays in Poland
+  ![image](https://github.com/user-attachments/assets/501ea813-4d90-4484-9b7d-11d17e08d26b)
+
+
+  
+
+
+
+
