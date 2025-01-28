@@ -1,7 +1,7 @@
-package org.example.model.dto;
+package org.converter.currency.dto;
 
-import org.example.valueObject.Currency;
-import org.example.valueObject.CurrencyCode;
+import org.converter.currency.valueObject.Currency;
+import org.converter.currency.valueObject.CurrencyCode;
 
 public record MoneyConversionRequest(
         Integer accountId,
