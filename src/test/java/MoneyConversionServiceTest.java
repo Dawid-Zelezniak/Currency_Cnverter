@@ -1,17 +1,16 @@
-import org.example.model.Account;
-import org.example.model.AccountBalance;
-import org.example.model.dto.CurrencyCourseDto;
-import org.example.model.dto.MoneyConversionRequest;
-import org.example.model.dto.RateDto;
-import org.example.service.CurrencyRatesDownloader;
-import org.example.service.MoneyConversionService;
-import org.example.service.strategy.ConversionStrategyFactory;
-import org.example.service.strategy.PlnToXStrategy;
-import org.example.service.strategy.XToPlnStrategy;
-import org.example.service.validation.CurrencyConversionValidator;
-import org.example.valueObject.Currency;
-import org.example.valueObject.CurrencyCode;
-import org.example.valueObject.Money;
+import org.converter.account.model.Account;
+import org.converter.account.model.AccountBalance;
+import org.converter.currency.dto.MoneyConversionRequest;
+import org.converter.currency.dto.RateDto;
+import org.converter.currency.service.MoneyConversionService;
+import org.converter.currency.service.RatesDownloader;
+import org.converter.currency.service.strategy.ConversionStrategyProvider;
+import org.converter.currency.service.strategy.PlnToXStrategy;
+import org.converter.currency.service.strategy.XToPlnStrategy;
+import org.converter.currency.service.validation.CurrencyConversionValidator;
+import org.converter.currency.valueObject.Currency;
+import org.converter.currency.valueObject.CurrencyCode;
+import org.converter.util.Money;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,11 +20,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.example.util.CurrencyCodes.*;
+import static org.converter.util.CurrencyCodes.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,14 +31,15 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class MoneyConversionServiceTest {
 
-    private static ArrayList<RateDto> usdRates;
+    private static RateDto usdRates;
+    private static RateDto chfRates;
 
     @Mock
     private CurrencyConversionValidator validator;
     @Mock
-    private ConversionStrategyFactory strategyFactory;
+    private ConversionStrategyProvider strategyFactory;
     @Mock
-    private CurrencyRatesDownloader ratesDownloader;
+    private RatesDownloader ratesDownloader;
     @InjectMocks
     private MoneyConversionService conversionService;
 
@@ -49,8 +48,8 @@ class MoneyConversionServiceTest {
 
     @BeforeAll
     public static void initUsdRates() {
-        usdRates = new ArrayList<>();
-        usdRates.add(new RateDto(createMoney(4.3).getValue(), createMoney(4.4).getValue()));
+        usdRates = new RateDto("usd", createMoney(4.3).getValue(), createMoney(4.4).getValue());
+        chfRates = new RateDto("chf", createMoney(4.9).getValue(), createMoney(5.0).getValue());
     }
 
     @BeforeEach
@@ -63,8 +62,8 @@ class MoneyConversionServiceTest {
     void shouldConvertPlnToUsd() {
         MoneyConversionRequest conversionRequest = createConversionRequest(testAccount.getId(), PLN_CODE, USD_CODE, 50);
 
-        when(ratesDownloader.getCurrencyCourse(USD_CODE)).thenReturn(new CurrencyCourseDto(USD, usdRates));
-        when(strategyFactory.getStrategy(PLN_CODE.getCode())).thenReturn(new PlnToXStrategy(ratesDownloader));
+        when(ratesDownloader.getCurrencyCourse("tableC", USD_CODE)).thenReturn(usdRates);
+        when(strategyFactory.getStrategy(PLN_CODE.code())).thenReturn(new PlnToXStrategy(ratesDownloader));
 
         AccountBalance initialBalance = testAccount.getBalance();
         AccountBalance expectedBalance = setExpectedPlnAndUsdBalance(50, 11.36);
@@ -87,8 +86,8 @@ class MoneyConversionServiceTest {
 
         MoneyConversionRequest conversionRequest = createConversionRequest(testAccount.getId(), USD_CODE, PLN_CODE, 15);
 
-        when(ratesDownloader.getCurrencyCourse(USD_CODE)).thenReturn(new CurrencyCourseDto(USD, usdRates));
-        when(strategyFactory.getStrategy(USD_CODE.getCode())).thenReturn(new XToPlnStrategy(ratesDownloader));
+        when(ratesDownloader.getCurrencyCourse("tableC", USD_CODE)).thenReturn(usdRates);
+        when(strategyFactory.getStrategy(USD_CODE.code())).thenReturn(new XToPlnStrategy(ratesDownloader));
 
         AccountBalance initialBalance = testAccount.getBalance();
         AccountBalance expectedBalance = setExpectedPlnAndUsdBalance(164.5, 10);
@@ -101,6 +100,26 @@ class MoneyConversionServiceTest {
 
         assertEquals(getMoneyAsDoubleFromCurrency(expectedBalances.get(PLN_CODE)), getMoneyAsDoubleFromCurrency(actualBalances.get(PLN_CODE)));
         assertEquals(getMoneyAsDoubleFromCurrency(expectedBalances.get(USD_CODE)), getMoneyAsDoubleFromCurrency(actualBalances.get(USD_CODE)));
+    }
+
+    @Test
+    void shouldConvertPlnToChf() {
+        MoneyConversionRequest conversionRequest = createConversionRequest(testAccount.getId(), PLN_CODE, CHF_CODE, 50);
+
+        when(ratesDownloader.getCurrencyCourse("tableC", CHF_CODE)).thenReturn(chfRates);
+        when(strategyFactory.getStrategy(PLN_CODE.code())).thenReturn(new PlnToXStrategy(ratesDownloader));
+
+        AccountBalance initialBalance = testAccount.getBalance();
+        AccountBalance expectedBalance = setExpectedPlnAndChfBalance(50, 10);
+
+        AccountBalance actualBalance = conversionService.convertMoney(initialBalance, conversionRequest);
+        verify(validator).validateBalance(initialBalance, conversionRequest);
+
+        Map<CurrencyCode, Currency> expectedBalances = expectedBalance.getBalances();
+        Map<CurrencyCode, Currency> actualBalances = actualBalance.getBalances();
+
+        assertEquals(getMoneyAsDoubleFromCurrency(expectedBalances.get(PLN_CODE)), getMoneyAsDoubleFromCurrency(actualBalances.get(PLN_CODE)));
+        assertEquals(getMoneyAsDoubleFromCurrency(expectedBalances.get(CHF_CODE)), getMoneyAsDoubleFromCurrency(actualBalances.get(CHF_CODE)));
     }
 
     private static Money createMoney(double value) {
@@ -125,12 +144,22 @@ class MoneyConversionServiceTest {
                 .build();
     }
 
+    private AccountBalance setExpectedPlnAndChfBalance(double pln, double chf) {
+        balances.put(PLN_CODE, new Currency(createMoney(pln), PLN_CODE));
+        balances.put(CHF_CODE, new Currency(createMoney(chf), USD_CODE));
+
+        return AccountBalance.builder()
+                .balances(balances)
+                .build();
+    }
+
     private Double getMoneyAsDoubleFromCurrency(Currency currency) {
         Money amount = currency.amount();
         return amount.getDoubleValue();
     }
 
     private MoneyConversionRequest createConversionRequest(Integer id, CurrencyCode baseCurrency, CurrencyCode targetCurrency, int toConvert) {
-        return new MoneyConversionRequest(id, new Currency(createMoney(toConvert), baseCurrency), targetCurrency);
+        return new MoneyConversionRequest(id, "tableC",
+                new Currency(createMoney(toConvert), baseCurrency), targetCurrency);
     }
 }
