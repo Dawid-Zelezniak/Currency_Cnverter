@@ -1,4 +1,4 @@
-package org.example.util;
+package org.converter.util;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
