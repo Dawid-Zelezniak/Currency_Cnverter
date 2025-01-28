@@ -1,13 +1,10 @@
-package org.example.model;
+package org.converter.account.model;
 
 import lombok.*;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class Account {
 
     private Integer id;
