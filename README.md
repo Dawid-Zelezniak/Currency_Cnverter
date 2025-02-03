@@ -1,6 +1,6 @@
 ## Aplikacja do zarządzania kontami użytkowników z obsługą różnych walut
 
-## [LINK TO SCREENSHOTS FROM POSTMAN BELOW DESCRIPTION]
+## [SCREENSHOTS FROM POSTMAN BELOW DESCRIPTION]
 
 # Główne funkcjonalności:
 - Tworzenie kont użytkowników z określonym saldem początkowym w PLN.
