@@ -5,5 +5,5 @@ import org.converter.currency.valueObject.CurrencyCode;
 
 public interface RatesDownloader {
 
-    RateDto getCurrencyCourse(String tableName, CurrencyCode currencyCode);
+    RateDto getCurrencyRate(String tableName, CurrencyCode currencyCode);
 }

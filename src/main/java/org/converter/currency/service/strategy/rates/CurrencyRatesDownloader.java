@@ -11,12 +11,12 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class CourseDownloader implements RatesDownloader {
+public class CurrencyRatesDownloader implements RatesDownloader {
 
     private final CurrencyRatesCache cache;
     private final NbpTableCRates tableCRates;
 
-    public RateDto getCurrencyCourse(String tableName, CurrencyCode currencyCode) {
+    public RateDto getCurrencyRate(String tableName, CurrencyCode currencyCode) {
         CurrencyTableDto currencyTableDto = cache.get(tableName);
         if (currencyTableDto == null) {
             tryUpdateCurrencyTable(tableName);

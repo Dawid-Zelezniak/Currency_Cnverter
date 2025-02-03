@@ -1,9 +1,9 @@
-package org.converter.currency.service.strategy;
+package org.converter.currency.service.strategy.conversion;
 
 import lombok.RequiredArgsConstructor;
 import org.converter.currency.dto.MoneyConversionRequest;
 import org.converter.currency.dto.RateDto;
-import org.converter.currency.service.RatesDownloader;
+import org.converter.currency.service.strategy.rates.RatesDownloader;
 import org.converter.currency.valueObject.Currency;
 import org.converter.currency.valueObject.CurrencyCode;
 import org.converter.util.Money;
@@ -17,7 +17,7 @@ public class XToPlnStrategy implements ConversionStrategy {
         Currency baseCurrency = request.baseCurrency();
         String table = request.table();
         CurrencyCode baseCurrencyCode = baseCurrency.code();
-        RateDto currencyCourse = ratesDownloader.getCurrencyCourse(table, baseCurrencyCode);
+        RateDto currencyCourse = ratesDownloader.getCurrencyRate(table, baseCurrencyCode);
 
         Money amount = baseCurrency.amount();
         Money multiplied = amount.multiply(new Money(currencyCourse.bid()));

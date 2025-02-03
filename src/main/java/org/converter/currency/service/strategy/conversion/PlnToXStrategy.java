@@ -1,9 +1,9 @@
-package org.converter.currency.service.strategy;
+package org.converter.currency.service.strategy.conversion;
 
 import lombok.RequiredArgsConstructor;
 import org.converter.currency.dto.MoneyConversionRequest;
 import org.converter.currency.dto.RateDto;
-import org.converter.currency.service.RatesDownloader;
+import org.converter.currency.service.strategy.rates.RatesDownloader;
 import org.converter.currency.valueObject.Currency;
 import org.converter.currency.valueObject.CurrencyCode;
 import org.converter.util.Money;
@@ -16,7 +16,7 @@ public class PlnToXStrategy implements ConversionStrategy {
     public Currency convert(MoneyConversionRequest request) {
         CurrencyCode targetCurrencyCode = request.targetCurrencyCode();
         String table = request.table();
-        RateDto currencyCourse = ratesDownloader.getCurrencyCourse(table, targetCurrencyCode);
+        RateDto currencyCourse = ratesDownloader.getCurrencyRate(table, targetCurrencyCode);
 
         Currency currency = request.baseCurrency();
         Money amount = currency.amount();
