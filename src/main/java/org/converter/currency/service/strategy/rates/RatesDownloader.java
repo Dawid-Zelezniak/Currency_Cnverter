@@ -1,4 +1,4 @@
-package org.converter.currency.service;
+package org.converter.currency.service.strategy.rates;
 
 import org.converter.currency.dto.RateDto;
 import org.converter.currency.valueObject.CurrencyCode;
