@@ -3,10 +3,10 @@ import org.converter.account.model.AccountBalance;
 import org.converter.currency.dto.MoneyConversionRequest;
 import org.converter.currency.dto.RateDto;
 import org.converter.currency.service.MoneyConversionService;
-import org.converter.currency.service.RatesDownloader;
-import org.converter.currency.service.strategy.ConversionStrategyProvider;
-import org.converter.currency.service.strategy.PlnToXStrategy;
-import org.converter.currency.service.strategy.XToPlnStrategy;
+import org.converter.currency.service.strategy.rates.RatesDownloader;
+import org.converter.currency.service.strategy.conversion.ConversionStrategyProvider;
+import org.converter.currency.service.strategy.conversion.PlnToXStrategy;
+import org.converter.currency.service.strategy.conversion.XToPlnStrategy;
 import org.converter.currency.service.validation.CurrencyConversionValidator;
 import org.converter.currency.valueObject.Currency;
 import org.converter.currency.valueObject.CurrencyCode;
@@ -62,7 +62,7 @@ class MoneyConversionServiceTest {
     void shouldConvertPlnToUsd() {
         MoneyConversionRequest conversionRequest = createConversionRequest(testAccount.getId(), PLN_CODE, USD_CODE, 50);
 
-        when(ratesDownloader.getCurrencyCourse("tableC", USD_CODE)).thenReturn(usdRates);
+        when(ratesDownloader.getCurrencyRate("tableC", USD_CODE)).thenReturn(usdRates);
         when(strategyFactory.getStrategy(PLN_CODE.code())).thenReturn(new PlnToXStrategy(ratesDownloader));
 
         AccountBalance initialBalance = testAccount.getBalance();
@@ -86,7 +86,7 @@ class MoneyConversionServiceTest {
 
         MoneyConversionRequest conversionRequest = createConversionRequest(testAccount.getId(), USD_CODE, PLN_CODE, 15);
 
-        when(ratesDownloader.getCurrencyCourse("tableC", USD_CODE)).thenReturn(usdRates);
+        when(ratesDownloader.getCurrencyRate("tableC", USD_CODE)).thenReturn(usdRates);
         when(strategyFactory.getStrategy(USD_CODE.code())).thenReturn(new XToPlnStrategy(ratesDownloader));
 
         AccountBalance initialBalance = testAccount.getBalance();
@@ -106,7 +106,7 @@ class MoneyConversionServiceTest {
     void shouldConvertPlnToChf() {
         MoneyConversionRequest conversionRequest = createConversionRequest(testAccount.getId(), PLN_CODE, CHF_CODE, 50);
 
-        when(ratesDownloader.getCurrencyCourse("tableC", CHF_CODE)).thenReturn(chfRates);
+        when(ratesDownloader.getCurrencyRate("tableC", CHF_CODE)).thenReturn(chfRates);
         when(strategyFactory.getStrategy(PLN_CODE.code())).thenReturn(new PlnToXStrategy(ratesDownloader));
 
         AccountBalance initialBalance = testAccount.getBalance();

@@ -1,4 +1,4 @@
-import org.converter.currency.service.NbpTableCRates;
+import org.converter.currency.service.strategy.rates.NbpTableCRates;
 import org.converter.holidays.Holiday;
 import org.converter.holidays.HolidayDate;
 import org.converter.holidays.HolidaysDownloader;

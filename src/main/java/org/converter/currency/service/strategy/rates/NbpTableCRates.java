@@ -12,7 +12,6 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class NbpTableCRates {
 
-
     private static final int FIRST_ELEMENT_FROM_MONO = 0;
 
     private final CurrencyRatesCache ratesCache;
